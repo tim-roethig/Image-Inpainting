@@ -52,7 +52,8 @@ class PrepData(torch.utils.data.Dataset):
 
 
 if __name__ == '__main__':
-    mi, m, i = PrepData()[1]
+    for i in range(1, 10):
+        mi, m, i = PrepData()[i]
     plt.imshow(mi.permute(1, 2, 0))
     plt.show()
     print(mi.shape)

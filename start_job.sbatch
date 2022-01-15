@@ -26,10 +26,10 @@
 
 
 # After J, specify name of the job to avoid confusion
-#SBATCH --error=job.%J_inpainting_firstcycle.err
+#SBATCH --error=job.%J_test.err
 # write the error output to job.*jobID*.err
 
-#SBATCH --output=job.%J_inpainting_firstcycle.out
+#SBATCH --output=job.%J_test.out
 # write the standard output to job.*jobID*.out
 
 #SBATCH --mail-type=ALL
@@ -41,13 +41,13 @@
 ####
 #b) copy all needed data to the jobs scratch folder
 ####
-cp -R /home/stud21/self-driving-cars/Matze_Praktikum/data /scratch/$SLURM_JOB_ID/
+cp -R /home/mollik/Image-Inpainting/data /scratch/$SLURM_JOB_ID/
 
 ####
 #c) Execute your file.
 ####
 
 # Uncomment to enable sbatch file
-singularity exec --nv /common/singularityImages/default.simg /home/stud21/miniconda3/envs/inpainting/bin/python train.py
+singularity exec --nv /common/singularityImages/default.simg /home/mollik/miniconda3/envs/inpainting/bin/python train.py
 
 echo DONE!

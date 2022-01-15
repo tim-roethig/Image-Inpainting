@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.utils import data
 
-from prep_data_load_irregular import PrepData
+from prep_data_irregular import PrepData
 from model import PartialConvNet
 from loss import CalculateLoss
 
@@ -24,7 +24,7 @@ def requires_grad(param):
 
 
 if __name__ == '__main__':
-    batch_size = 64
+    batch_size = 8
     lr = 0.1
     epochs = 2
     num_workers = 1

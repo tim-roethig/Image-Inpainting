@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import torch
 
 from model import PartialConvNet
-from prep_data_load_irregular import PrepData
+from prep_data_irregular_testing import PrepData
 
 device = torch.device('cpu')
 

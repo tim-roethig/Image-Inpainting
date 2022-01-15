@@ -24,11 +24,11 @@ def requires_grad(param):
 
 
 if __name__ == '__main__':
-    batch_size = 8
+    batch_size = 64
     lr = 0.1
     epochs = 2
     num_workers = 1
-    device = torch.device('cpu')
+    device = torch.device('cuda')
 
     data_train = PrepData(n_samples=batch_size * 10)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")

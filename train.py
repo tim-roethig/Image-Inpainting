@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.utils import data
 
-from prep_data_load_irregular import PrepData
+from prep_data_irregular import PrepData
 from model import PartialConvNet
 from loss import CalculateLoss
 

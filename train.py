@@ -24,7 +24,7 @@ def requires_grad(param):
 
 
 if __name__ == '__main__':
-    batch_size = 64
+    batch_size = 8
     lr = 0.1
     epochs = 2
     num_workers = 1

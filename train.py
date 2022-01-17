@@ -26,11 +26,11 @@ def requires_grad(param):
 if __name__ == '__main__':
     batch_size = 16
     lr = 0.1
-    epochs = 100
+    epochs = 2
     num_workers = 1
     device = torch.device('cuda')
 
-    data_train = PrepData(n_samples=batch_size * 10)
+    data_train = PrepData(n_samples=batch_size * 1000)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")
 
     iters_per_epoch = data_train.num_imgs // batch_size
@@ -81,11 +81,11 @@ if __name__ == '__main__':
             # updates the weights
             optimizer.step()
 
-            # Save model after every epoch
-            torch.save(model.state_dict(), f'model_first_cycle_{i}.t7')
-
             # Clear GPU cache
             # Better to move it in front of the for loop?
             #torch.cuda.empty_cache()
+
+        # Save model after every epoch
+        torch.save(model.state_dict(), f'model_first_cycle_{epoch}.t7')
 
     torch.save(model.state_dict(), 'model_first_cycle.t7')

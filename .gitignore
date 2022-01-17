@@ -2,3 +2,6 @@
 *.out
 *.err
 *.t7
+\test*
+!test.py
+**/exp

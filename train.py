@@ -24,9 +24,9 @@ def requires_grad(param):
 
 
 if __name__ == '__main__':
-    batch_size = 64
+    batch_size = 16
     lr = 0.1
-    epochs = 2
+    epochs = 100
     num_workers = 1
     device = torch.device('cuda')
 
@@ -60,7 +60,8 @@ if __name__ == '__main__':
             model.train()
 
             # Gets the next batch of images
-            image, mask, gt = [x.to(device) for x in next(iterator_train)]
+            if torch.cuda.is_available():
+                image, mask, gt = [x.to(device) for x in next(iterator_train)]
 
             # Forward-propagates images through net
             # Mask is also propagated, though it is usually gone by the decoding stage
@@ -82,5 +83,9 @@ if __name__ == '__main__':
 
             # Save model after every epoch
             torch.save(model.state_dict(), f'model_first_cycle_{i}.t7')
+
+            # Clear GPU cache
+            # Better to move it in front of the for loop?
+            #torch.cuda.empty_cache()
 
     torch.save(model.state_dict(), 'model_first_cycle.t7')

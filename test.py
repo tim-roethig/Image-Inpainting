@@ -13,7 +13,7 @@ model = model.to(device)
 model.eval()
 
 #rand = np.random.randint(0, 159)
-img, mask, gt_img = PrepData()[4]
+img, mask, gt_img = PrepData()[1]
 
 #plt.imshow(img.permute(1, 2, 0))
 # See ground truth images
@@ -36,5 +36,5 @@ output = np.interp(output, (output.min(), output.max()), (0., 1.))
 #print(output)
 
 #plt.imshow(output[0].permute(1, 2, 0))
-plt.imsave('test_samplesize16x1000.png', output)
+plt.imsave('test_batchsize32_rectangle.png', output)
 #plt.show()

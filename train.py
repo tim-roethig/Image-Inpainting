@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.utils import data
 
-from prep_data_irregular import PrepData
+from prep_data import PrepData
 from model import PartialConvNet
 from loss import CalculateLoss
 
@@ -24,7 +24,7 @@ def requires_grad(param):
 
 
 if __name__ == '__main__':
-    batch_size = 16
+    batch_size = 32
     lr = 0.1
     epochs = 2
     num_workers = 1
@@ -59,8 +59,9 @@ if __name__ == '__main__':
             # Sets model to train mode
             model.train()
 
-            # Gets the next batch of images
+            # Makes sure that there are no out of memory errors
             if torch.cuda.is_available():
+                # Gets the next batch of images
                 image, mask, gt = [x.to(device) for x in next(iterator_train)]
 
             # Forward-propagates images through net
@@ -81,11 +82,11 @@ if __name__ == '__main__':
             # updates the weights
             optimizer.step()
 
-            # Clear GPU cache
-            # Better to move it in front of the for loop?
-            #torch.cuda.empty_cache()
-
         # Save model after every epoch
-        torch.save(model.state_dict(), f'model_first_cycle_{epoch}.t7')
+        torch.save(model.state_dict(), f'model_epoch_{epoch}.t7')
 
-    torch.save(model.state_dict(), 'model_first_cycle.t7')
+        # Clear GPU cache
+        # TODO: Right position?
+        torch.cuda.empty_cache()
+
+    torch.save(model.state_dict(), 'model_rectangles.t7')

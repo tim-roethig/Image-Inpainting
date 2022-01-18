@@ -8,14 +8,17 @@ from PIL import Image
 
 
 class PrepData(torch.utils.data.Dataset):
-    def __init__(self, n_samples=100):
+    def __init__(self, n_samples):
         super().__init__()
 
         self.n_samples = n_samples
         self.min_patch_size = 0.2
         self.max_patch_size = 0.3
 
-        self.img_paths = glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data_celeba/*.jpg')[:self.n_samples]
+        # Read from scratch/*SLURMjobID*
+        id = os.environ["SLURM_JOB_ID"]
+        #self.img_paths = glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/data_celeba/*.jpg')[:self.n_samples]
+        self.img_paths = glob.glob(f'/scratch/{id}' + '/data/data_celeba/*.jpg')[:self.n_samples]
         self.num_imgs = len(self.img_paths)
 
         self.img_transformer = transforms.ToTensor()
@@ -52,13 +55,14 @@ class PrepData(torch.utils.data.Dataset):
 
 
 if __name__ == '__main__':
-    for i in range(1, 10):
-        mi, m, i = PrepData()[i]
-    plt.imshow(mi.permute(1, 2, 0))
-    plt.show()
-    print(mi.shape)
-    print(mi.dtype)
-    print(m.shape)
-    print(m.dtype)
-    print(i.shape)
-    print(i.dtype)
+    # for i in range(1, 10):
+    #     mi, m, i = PrepData()[i]
+    mi, m, i = PrepData()[1]
+    # plt.imshow(mi.permute(1, 2, 0))
+    # plt.show()
+    # print(mi.shape)
+    # print(mi.dtype)
+    # print(m.shape)
+    # print(m.dtype)
+    # print(i.shape)
+    # print(i.dtype)

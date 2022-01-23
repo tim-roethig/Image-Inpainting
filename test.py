@@ -3,7 +3,7 @@ import torch
 import numpy as np
 
 from model import PartialConvNet
-from prep_data_irregular_testing import PrepData
+from prep_data_lines_testing import PrepData
 
 device = torch.device('cpu')
 

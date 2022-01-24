@@ -73,7 +73,7 @@ if __name__ == '__main__':
             # sums up each loss value
             for key, value in loss_dict.items():
                 loss += value
-            print(loss)
+            #print(loss)
 
             # Resets gradient accumulator in optimizer
             optimizer.zero_grad()

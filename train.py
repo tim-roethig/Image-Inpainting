@@ -24,13 +24,13 @@ def requires_grad(param):
 
 
 if __name__ == '__main__':
-    batch_size = 32
+    batch_size = 16
     lr = 0.1
-    epochs = 2
+    epochs = 13
     num_workers = 1
     device = torch.device('cuda')
 
-    data_train = PrepData(n_samples=batch_size * 1000)
+    data_train = PrepData(n_samples=batch_size * 10000)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")
 
     iters_per_epoch = data_train.num_imgs // batch_size

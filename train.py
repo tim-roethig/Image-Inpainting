@@ -93,3 +93,4 @@ if __name__ == '__main__':
         torch.save(model.state_dict(), f'model_epoch_{epoch}.t7')
 
     torch.save(model.state_dict(), 'model_rectangles.t7')
+    print(loss)

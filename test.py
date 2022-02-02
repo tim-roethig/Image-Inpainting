@@ -4,14 +4,14 @@ import numpy as np
 import time
 
 from model import PartialConvNet
-from prep_data_efficient_lines_testing import PrepData
+from prep_data_testing import PrepData
 
 start = time.time()
 
 device = torch.device('cpu')
 
 model = PartialConvNet().double()
-model.load_state_dict(torch.load('model_epoch_13_rectangles.t7', map_location=device))
+model.load_state_dict(torch.load('model_epoch_5.t7', map_location=device))
 model = model.to(device)
 model.eval()
 
@@ -39,7 +39,7 @@ output = np.interp(output, (output.min(), output.max()), (0., 1.))
 #print(output)
 
 #plt.imshow(output[0].permute(1, 2, 0))
-plt.imsave('test_efficiency_new.png', output)
+plt.imsave('test_rectangle_bs10000.png', output)
 #plt.show()
 end = time.time()
 

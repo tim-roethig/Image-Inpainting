@@ -24,6 +24,9 @@ def requires_grad(param):
 
 
 if __name__ == '__main__':
+    # For debugging of error job.500547_rectangles.err?
+    # os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
+    
     batch_size = 16
     lr = 0.1
     epochs = 13
@@ -82,11 +85,11 @@ if __name__ == '__main__':
             # updates the weights
             optimizer.step()
 
+            # Clear GPU cache
+            # TODO: Right position?
+            torch.cuda.empty_cache()
+
         # Save model after every epoch
         torch.save(model.state_dict(), f'model_epoch_{epoch}.t7')
-
-        # Clear GPU cache
-        # TODO: Right position?
-        torch.cuda.empty_cache()
 
     torch.save(model.state_dict(), 'model_rectangles.t7')

@@ -85,12 +85,12 @@ if __name__ == '__main__':
             # updates the weights
             optimizer.step()
 
-            # Clear GPU cache
-            # TODO: Right position?
-            torch.cuda.empty_cache()
-
         # Save model after every epoch
         torch.save(model.state_dict(), f'model_epoch_{epoch}.t7')
+
+        # Clear GPU cache
+        # TODO: Really neccessary? Right position?
+        # torch.cuda.empty_cache()
 
     torch.save(model.state_dict(), 'model_rectangles.t7')
     print(loss)

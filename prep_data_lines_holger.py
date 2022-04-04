@@ -31,9 +31,9 @@ class PrepData(torch.utils.data.Dataset):
         self.max_patch_size = 0.3
 
         # This part is important for running on cluster
-        #id = os.environ["SLURM_JOB_ID"]
-        self.img_paths = glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/data_celeba/*.jpg')[:self.n_samples]
-        #self.img_paths = glob.glob(f'/scratch/{id}' + '/data/data_celeba/*.jpg')[:self.n_samples]
+        id = os.environ["SLURM_JOB_ID"]
+        #self.img_paths = glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/data_celeba/*.jpg')[:self.n_samples]
+        self.img_paths = glob.glob(f'/scratch/{id}' + '/data/data_celeba/*.jpg')[:self.n_samples]
         self.num_imgs = len(self.img_paths)
 
         self.img_transformer = transforms.ToTensor()
@@ -78,10 +78,12 @@ class PrepData(torch.utils.data.Dataset):
         mask = ~mask
 
         img = torch.as_tensor(img, dtype=torch.float64)
-    
+        # Turn booleans to ints
+        mask_int = mask.long()
+        mask = mask_int
         return (img * mask), mask, img
 
 if __name__ == '__main__':
     mi, m, i = PrepData()[1]
-    plt.imshow(mi.permute(1, 2, 0))
-    plt.show()
+    #plt.imshow(mi.permute(1, 2, 0))
+    #plt.show()

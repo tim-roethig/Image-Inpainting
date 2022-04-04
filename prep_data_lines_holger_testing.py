@@ -77,9 +77,13 @@ class PrepData(torch.utils.data.Dataset):
 
         # Apply a threshold tau to obtain a binary mask defining the irregular line.
         mask = (mask >= tau)
+        # Invert boolean mask to receive final mask overlay
+        mask = ~mask
 
         img = torch.as_tensor(img, dtype=torch.float64)
-    
+        # Turn booleans to ints
+        mask_int = mask.long()
+        mask = mask_int
         return (img * mask), mask, img
 
 if __name__ == '__main__':

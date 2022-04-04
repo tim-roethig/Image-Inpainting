@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.utils import data
 
-from prep_data import PrepData
+from prep_data_lines_holger import PrepData
 from model import PartialConvNet
 from loss import CalculateLoss
 
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     num_workers = 1
     device = torch.device('cuda')
 
-    data_train = PrepData(n_samples=batch_size * 10000)
+    data_train = PrepData(n_samples=batch_size * 10)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")
 
     iters_per_epoch = data_train.num_imgs // batch_size
@@ -69,6 +69,7 @@ if __name__ == '__main__':
 
             # Forward-propagates images through net
             # Mask is also propagated, though it is usually gone by the decoding stage
+            #print(f"Image Shape: {image.shape}, Mask Shape: {mask.shape}")
             output = model(image, mask)
 
             loss_dict = loss_func(mask, output, gt)
@@ -92,5 +93,5 @@ if __name__ == '__main__':
         # TODO: Really neccessary? Right position?
         # torch.cuda.empty_cache()
 
-    torch.save(model.state_dict(), 'model_rectangles.t7')
+    torch.save(model.state_dict(), 'model_lines.t7')
     print(loss)

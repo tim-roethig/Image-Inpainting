@@ -63,6 +63,7 @@ if __name__ == '__main__':
             model.train()
 
             # Makes sure that there are no out of memory errors
+            # could mess with training?
             if torch.cuda.is_available():
                 # Gets the next batch of images
                 image, mask, gt = [x.to(device) for x in next(iterator_train)]

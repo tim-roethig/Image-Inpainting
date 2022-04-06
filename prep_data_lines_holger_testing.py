@@ -76,24 +76,25 @@ class PrepData(torch.utils.data.Dataset):
         mask = torch.conv2d(mask.view(1,1,h,w), gauss_filter[None,None], padding=k)[0,0]
 
         # Apply a threshold tau to obtain a binary mask defining the irregular line.
-        mask = (mask >= tau)
+        mask = (mask < tau)
         # Invert boolean mask to receive final mask overlay
-        mask = ~mask
+        #mask = ~mask
 
         img = torch.as_tensor(img, dtype=torch.float64)
         # Turn booleans to ints
-        mask_int = mask.long()
-        mask = mask_int
-        return (img * mask), mask, img
+        mask_double = mask.to(torch.float64)
+        return (img * mask_double), mask_double, img
 
 if __name__ == '__main__':
     execution_times = ["HO_exec_time"]
 
-    for j in tqdm(range(1, 1001)):
-        start = time.time()
-        mi, m, i = PrepData()[1]
-        end = time.time()
-        execution_times.append(end-start)
-    np.savetxt('lines_holger_time.csv', [p for p in execution_times], delimiter=',', fmt='%s')
+    #for j in tqdm(range(1, 1001)):
+    #    start = time.time()
+    mi, m, i = PrepData()[1]
+    #    end = time.time()
+    #    execution_times.append(end-start)
+    #np.savetxt('lines_holger_time.csv', [p for p in execution_times], delimiter=',', fmt='%s')
 
+    plt.imshow(mi.permute(1, 2, 0))
+    plt.show()
     # print("Time of execution of the NEW version: ", end-start)

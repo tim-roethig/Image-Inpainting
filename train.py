@@ -22,23 +22,23 @@ class SubsetSampler(data.sampler.Sampler):
 def requires_grad(param):
     return param.requires_grad
 
-
 if __name__ == '__main__':
     # For debugging of error job.500547_rectangles.err?
     # os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
     
-    batch_size = 16
+    batch_size = 2
     lr = 0.1
     epochs = 13
     num_workers = 1
-    device = torch.device('cuda')
+    device = torch.device('cpu')
 
-    data_train = PrepData(n_samples=batch_size * 10)
+    data_train = PrepData(n_samples=batch_size * 2)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")
 
     iters_per_epoch = data_train.num_imgs // batch_size
 
-    model = PartialConvNet().double().to(device)
+    # .double weggelassen
+    model = PartialConvNet().to(device)
     print("Loaded model to device...")
 
     optimizer = torch.optim.Adam(filter(requires_grad, model.parameters()), lr=lr)
@@ -64,9 +64,9 @@ if __name__ == '__main__':
 
             # Makes sure that there are no out of memory errors
             # could mess with training?
-            if torch.cuda.is_available():
+            #if torch.cuda.is_available():
                 # Gets the next batch of images
-                image, mask, gt = [x.to(device) for x in next(iterator_train)]
+            image, mask, gt = [x.to(device) for x in next(iterator_train)]
 
             # Forward-propagates images through net
             # Mask is also propagated, though it is usually gone by the decoding stage

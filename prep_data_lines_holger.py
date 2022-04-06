@@ -23,7 +23,7 @@ def get_gauss_filter(sigma=0, k=1):
     return mask
 
 class PrepData(torch.utils.data.Dataset):
-    def __init__(self, n_samples=100):
+    def __init__(self, n_samples=4):
         super().__init__()
 
         self.n_samples = n_samples
@@ -31,9 +31,9 @@ class PrepData(torch.utils.data.Dataset):
         self.max_patch_size = 0.3
 
         # This part is important for running on cluster
-        id = os.environ["SLURM_JOB_ID"]
-        #self.img_paths = glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/data_celeba/*.jpg')[:self.n_samples]
-        self.img_paths = glob.glob(f'/scratch/{id}' + '/data/data_celeba/*.jpg')[:self.n_samples]
+        #id = os.environ["SLURM_JOB_ID"]
+        self.img_paths = glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/data_celeba/*.jpg')[:self.n_samples]
+        #self.img_paths = glob.glob(f'/scratch/{id}' + '/data/data_celeba/*.jpg')[:self.n_samples]
         self.num_imgs = len(self.img_paths)
 
         self.img_transformer = transforms.ToTensor()
@@ -73,15 +73,16 @@ class PrepData(torch.utils.data.Dataset):
         mask = torch.conv2d(mask.view(1,1,h,w), gauss_filter[None,None], padding=k)[0,0]
 
         # Apply a threshold tau to obtain a binary mask defining the irregular line.
-        mask = (mask >= tau)
+        mask = (mask < tau)
         # Invert boolean mask to receive final mask overlay
-        mask = ~mask
+        #mask = ~mask
 
-        img = torch.as_tensor(img, dtype=torch.float64)
+        img = torch.as_tensor(img, dtype=torch.float32)
         # Turn booleans to ints
-        mask_int = mask.long()
-        mask = mask_int
-        return (img * mask), mask, img
+        mask_double = mask.to(torch.float32)
+        mask_double = mask_double.view(1,h,w)
+        mask_double = torch.cat(3*[mask_double], dim=0)
+        return (img * mask_double), mask_double, img
 
 if __name__ == '__main__':
     mi, m, i = PrepData()[1]

@@ -65,7 +65,6 @@ class PartialConvNet(nn.Module):
             encoder_key = "encoder_{:d}".format(i)
             key = "h_{:d}".format(i)
             # Passes input and mask through encoding layer
-            print(key)
             encoder_dict[key], mask_dict[key] = getattr(self, encoder_key)(encoder_dict[key_prev], mask_dict[key_prev])
             # Liste mit layers anlegen und über diese Liste iterieren
             key_prev = key

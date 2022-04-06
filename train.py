@@ -26,13 +26,13 @@ if __name__ == '__main__':
     # For debugging of error job.500547_rectangles.err?
     # os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
     
-    batch_size = 2
+    batch_size = 16
     lr = 0.1
     epochs = 13
     num_workers = 1
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-    data_train = PrepData(n_samples=batch_size * 2)
+    data_train = PrepData(n_samples=batch_size * 8750)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")
 
     iters_per_epoch = data_train.num_imgs // batch_size

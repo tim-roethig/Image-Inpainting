@@ -23,7 +23,7 @@ def get_gauss_filter(sigma=0, k=1):
     return mask
 
 class PrepData(torch.utils.data.Dataset):
-    def __init__(self, n_samples=4):
+    def __init__(self, n_samples=100):
         super().__init__()
 
         self.n_samples = n_samples
@@ -31,9 +31,9 @@ class PrepData(torch.utils.data.Dataset):
         self.max_patch_size = 0.3
 
         # This part is important for running on cluster
-        #id = os.environ["SLURM_JOB_ID"]
-        self.img_paths = glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/data_celeba/*.jpg')[:self.n_samples]
-        #self.img_paths = glob.glob(f'/scratch/{id}' + '/data/data_celeba/*.jpg')[:self.n_samples]
+        id = os.environ["SLURM_JOB_ID"]
+        #self.img_paths = glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/data_celeba/*.jpg')[:self.n_samples]
+        self.img_paths = glob.glob(f'/scratch/{id}' + '/data/data_celeba/*.jpg')[:self.n_samples]
         self.num_imgs = len(self.img_paths)
 
         self.img_transformer = transforms.ToTensor()

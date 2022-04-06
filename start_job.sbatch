@@ -17,7 +17,7 @@
 #SBATCH --mem-per-cpu=20G
 # the job will need 12GB of memory equally distributed on 4 cpus.  (251GB are available in total on one node)
 
-#SBATCH --gres=gpu:2
+#SBATCH --gres=gpu:1
 #the job can use and see 1 GPUs (4 GPUs are available in total on one node)
 
 #SBATCH --time=6-20
@@ -41,9 +41,15 @@
 ####
 #b) copy all needed data in zip format to the jobs scratch folder and unzip it there
 ####
+echo Start copying...
 cp /home/mollik/Image-Inpainting/celeba.zip /scratch/$SLURM_JOB_ID/
+echo Change directory...
 cd /scratch/$SLURM_JOB_ID/
-unzip celeba.zip
+echo Unzip data...
+unzip -qq celeba.zip
+echo Change directory back...
+cd /home/mollik/Image-Inpainting/
+echo Execute training...
 ####
 #c) Execute your file.
 ####

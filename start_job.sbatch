@@ -39,10 +39,11 @@
 # your mail address
 
 ####
-#b) copy all needed data to the jobs scratch folder
+#b) copy all needed data in zip format to the jobs scratch folder and unzip it there
 ####
-cp -R /home/mollik/Image-Inpainting/data /scratch/$SLURM_JOB_ID/
-
+cp /home/mollik/Image-Inpainting/celeba.zip /scratch/$SLURM_JOB_ID/
+cd /scratch/$SLURM_JOB_ID/
+unzip celeba.zip
 ####
 #c) Execute your file.
 ####

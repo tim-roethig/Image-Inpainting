@@ -31,7 +31,7 @@ if __name__ == '__main__':
     lr = 0.1
     epochs = 13
     num_workers = 1
-    device = torch.device('cuda')
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
     data_train = PrepData(n_samples=batch_size * 10)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")

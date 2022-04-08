@@ -9,8 +9,8 @@ import glob
 import torch
 from torchvision import transforms
 # BENCHMARK:
-from tqdm import tqdm
-import time
+#from tqdm import tqdm
+#import time
 
 
 def get_gauss_filter(sigma=0, k=1):
@@ -49,9 +49,9 @@ class PrepData(torch.utils.data.Dataset):
         # choose parameters
         batchsize = 2
         w, h = 256, 256
-        # num_lines = np.random.randint(2,16)
-        # BENCHMARK
-        num_lines = 10
+        num_lines = np.random.randint(2,16)
+        # relation of num_lines and sigma can be improved
+        # thinner lines the more lines are present
         sigma = int(8/num_lines + 1)
         k = 2 * sigma
         tau = 1
@@ -80,13 +80,15 @@ class PrepData(torch.utils.data.Dataset):
         # Invert boolean mask to receive final mask overlay
         #mask = ~mask
 
-        img = torch.as_tensor(img, dtype=torch.float64)
+        img = torch.as_tensor(img, dtype=torch.float32)
         # Turn booleans to ints
-        mask_double = mask.to(torch.float64)
+        mask_double = mask.to(torch.float32)
+        mask_double = mask_double.view(1,h,w)
+        mask_double = torch.cat(3*[mask_double], dim=0)
         return (img * mask_double), mask_double, img
 
 if __name__ == '__main__':
-    execution_times = ["HO_exec_time"]
+    #execution_times = ["HO_exec_time"]
 
     #for j in tqdm(range(1, 1001)):
     #    start = time.time()

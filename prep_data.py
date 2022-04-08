@@ -46,10 +46,10 @@ class PrepData(torch.utils.data.Dataset):
         patch_x_start = x - range_x
         patch_x_end = x + range_x
 
-        mask = torch.ones(size=img.shape, dtype=torch.float64)
+        mask = torch.ones(size=img.shape, dtype=torch.float32)
         mask[:, patch_y_start:patch_y_end, patch_x_start:patch_x_end] = 0
 
-        img = torch.as_tensor(img, dtype=torch.float64)
+        img = torch.as_tensor(img, dtype=torch.float32)
 
         return (img * mask), mask, img
 

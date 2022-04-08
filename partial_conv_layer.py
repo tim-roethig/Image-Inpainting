@@ -53,6 +53,7 @@ class PartialConvLayer(nn.Module):
         # requires_grad = False
         with torch.no_grad():
             # mask = (1 dot M) + 0 = M
+            print(mask.shape)
             output_mask = self.mask_conv(mask)
 
         if self.input_conv.bias is not None:

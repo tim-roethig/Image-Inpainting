@@ -4,14 +4,14 @@ import numpy as np
 import time
 
 from model import PartialConvNet
-from prep_data_testing import PrepData
+from prep_data_lines_holger_testing import PrepData
 
 start = time.time()
 
 device = torch.device('cpu')
 
 model = PartialConvNet()
-model.load_state_dict(torch.load('model_rec_epoch_10.t7', map_location=device))
+model.load_state_dict(torch.load('model_lines_200k.t7', map_location=device))
 model = model.to(device)
 model.eval()
 
@@ -20,8 +20,8 @@ img, mask, gt_img = PrepData()[1]
 
 #plt.imshow(img.permute(1, 2, 0))
 # See ground truth images
-plt.imsave('test_rectangles_140k_epoch5_img.png', gt_img.permute(1, 2, 0).numpy())
-plt.imsave('test_rectangles_140k_epoch5_mask.png', img.permute(1, 2, 0).numpy())
+plt.imsave('test_lines_200k_img.png', gt_img.permute(1, 2, 0).numpy())
+plt.imsave('test_lines_200k_mask.png', img.permute(1, 2, 0).numpy())
 
 img.unsqueeze_(0)
 gt_img.unsqueeze_(0)
@@ -40,7 +40,7 @@ output = np.interp(output, (output.min(), output.max()), (0., 1.))
 #print(output)
 
 #plt.imshow(output[0].permute(1, 2, 0))
-plt.imsave('test_rectangles_140k_epoch5.png', output)
+plt.imsave('test_lines_200k.png', output)
 #plt.show()
 end = time.time()
 

@@ -4,8 +4,8 @@ from torch.utils import data
 
 from prep_data_lines_holger import PrepData
 from model import PartialConvNet
-from loss import CalculateLoss
-
+#from loss import CalculateLoss
+from lossGAN import CalculateLoss
 
 class SubsetSampler(data.sampler.Sampler):
     def __init__(self, start_sample, num_samples):
@@ -26,13 +26,13 @@ if __name__ == '__main__':
     # For debugging of error job.500547_rectangles.err?
     # os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
     
-    batch_size = 32
+    batch_size = 64
     lr = 0.1
-    epochs = 30
+    epochs = 15
     num_workers = 1
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-    data_train = PrepData(n_samples=batch_size * 12500)
+    data_train = PrepData(n_samples=batch_size * 2200)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")
 
     iters_per_epoch = data_train.num_imgs // batch_size
@@ -94,5 +94,5 @@ if __name__ == '__main__':
         # TODO: Really neccessary? Right position?
         # torch.cuda.empty_cache()
 
-    torch.save(model.state_dict(), 'model_lines_200k.t7')
+    torch.save(model.state_dict(), 'model_lines_lossGAN_140k_64B.t7')
     print(loss)

@@ -53,6 +53,8 @@ echo Execute training...
 ####
 #c) Execute your file.
 ####
+# Switch to location of train.py (different for every network)
+cd /home/mollik/Image-Inpainting/partial_convolutions/
 
 # Uncomment to enable sbatch file
 singularity exec --nv /common/singularityImages/default.simg /home/mollik/miniconda3/envs/inpainting/bin/python train.py

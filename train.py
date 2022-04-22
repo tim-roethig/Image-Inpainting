@@ -5,7 +5,7 @@ from torch.utils import data
 from prep_data_lines_holger import PrepData
 from model import PartialConvNet
 #from loss import CalculateLoss
-from lossGAN import CalculateLoss
+from loss import CalculateLoss
 
 class SubsetSampler(data.sampler.Sampler):
     def __init__(self, start_sample, num_samples):

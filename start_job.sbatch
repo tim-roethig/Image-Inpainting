@@ -26,10 +26,10 @@
 
 
 # After J, specify name of the job to avoid confusion
-#SBATCH --error=job.%J_lossGAN.err
+#SBATCH --error=job.%J_pCNN.err
 # write the error output to job.*jobID*.err
 
-#SBATCH --output=job.%J_lossGAN.out
+#SBATCH --output=job.%J_pCNN.out
 # write the standard output to job.*jobID*.out
 
 #SBATCH --mail-type=ALL

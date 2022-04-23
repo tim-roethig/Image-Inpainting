@@ -15,10 +15,18 @@ class PrepData(torch.utils.data.Dataset):
         self.min_patch_size = 0.2
         self.max_patch_size = 0.3
 
+        # von tim
         #self.img_paths = glob.glob(os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/data_celeba/*.jpg')
         #self.img_paths = glob.glob('/Users/tim/Desktop/Master/Semester_3/ML_PRAK/Image-Inpainting/data_celeba/*.jpg')
-        self.img_paths = glob.glob('../data_celeba/*.jpg')
-        self.img_paths = self.img_paths[:self.n_samples]
+        #self.img_paths = glob.glob('../data_celeba/*.jpg')
+        #self.img_paths = self.img_paths[:self.n_samples]
+
+        # Read from scratch/*SLURMjobID*
+        id = os.environ["SLURM_JOB_ID"]
+        self.img_paths = glob.glob(f'/scratch/{id}' + '/data/data_celeba/*.jpg')[:self.n_samples]
+        
+        # for testing
+        #self.img_paths = glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/data_celeba/*.jpg')[:self.n_samples]
 
         self.num_imgs = len(self.img_paths)
 
@@ -47,10 +55,10 @@ class PrepData(torch.utils.data.Dataset):
         patch_x_start = x - range_x
         patch_x_end = x + range_x
 
-        mask = torch.ones(size=img.shape, dtype=torch.float64)
+        mask = torch.ones(size=img.shape, dtype=torch.float32)
         mask[:, patch_y_start:patch_y_end, patch_x_start:patch_x_end] = 0
 
-        img = torch.as_tensor(img, dtype=torch.float64)
+        img = torch.as_tensor(img, dtype=torch.float32)
 
         return (img * mask), mask, img
 
@@ -60,11 +68,11 @@ class PrepData(torch.utils.data.Dataset):
 
 if __name__ == '__main__':
     mi, m, i = PrepData()[0]
-    plt.imshow(mi.permute(1, 2, 0))
-    plt.show()
-    print(mi.shape)
-    print(mi.dtype)
-    print(m.shape)
-    print(m.dtype)
-    print(i.shape)
-    print(i.dtype)
+    #plt.imshow(mi.permute(1, 2, 0))
+    #plt.show()
+    #print(mi.shape)
+    #print(mi.dtype)
+    #print(m.shape)
+    #print(m.dtype)
+    #print(i.shape)
+    #print(i.dtype)

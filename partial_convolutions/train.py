@@ -14,15 +14,17 @@ def requires_grad(param):
 if __name__ == '__main__':
     batch_size = 16
     lr = 0.01
-    epochs = 1
-    device = torch.device('cuda')
+    epochs = 15
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 
-    data_train = PrepData(n_samples=batch_size * 20)
+    data_train = PrepData(n_samples=batch_size * 8750)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")
 
     iters_per_epoch = data_train.num_imgs // batch_size
 
-    model = PartialConvNet().double().to(device)
+    # .double weggelassen gegen OOM errors (alles von float32 auf float64 umgestellt)
+    # fehler job.548534 immernoch da, finde die Ursache aber nicht
+    model = PartialConvNet().to(device)
     print("Loaded model to device...")
 
     optimizer = torch.optim.Adam(filter(requires_grad, model.parameters()), lr=lr)
@@ -77,6 +79,6 @@ if __name__ == '__main__':
             columns=['epoch', 'iteration', 'l1'],
             data=loss_df
         )
-        loss_df.to_csv('losses.csv', index=False)
+        loss_df.to_csv('pCNNlosses.csv', index=False)
 
-    torch.save(model.state_dict(), 'pc_model')
+    torch.save(model.state_dict(), 'pc_model.t7')

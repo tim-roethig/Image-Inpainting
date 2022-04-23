@@ -48,7 +48,8 @@ def total_variation_loss(image, l1):
 class VGG16Extractor(nn.Module):
     def __init__(self):
         super().__init__()
-        vgg16 = models.vgg16(pretrained=True).double()
+        # Edit matze: .double() weggelassen in vgg16 = models.vgg16(pretrained=True).double()
+        vgg16 = models.vgg16(pretrained=True)
         self.max_pooling1 = vgg16.features[:5]
         self.max_pooling2 = vgg16.features[5:10]
         self.max_pooling3 = vgg16.features[10:17]

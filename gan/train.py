@@ -8,21 +8,22 @@ from model import InpaintGenerator, Discriminator, PartialConvNet
 
 
 if __name__ == "__main__":
-    batch_size = 12#14
+    batch_size = 16#14
     lr = 0.0001
-    epochs = 2
+    epochs = 15
     beta1 = 0.5
     beta2 = 0.999
     device = torch.device('cuda')
 
-    data_train = PrepData(n_samples=batch_size * 200)
+    data_train = PrepData(n_samples=batch_size * 8750)
     print(f"Loaded training dataset with {data_train.num_imgs} samples")
 
     iters_per_epoch = data_train.num_imgs // batch_size
 
-    generator = InpaintGenerator(rates=[1, 2, 4, 8], block_num=2).double().to(device)
-    #generator = PartialConvNet().double().to(device)
-    discriminator = Discriminator().double().to(device)
+    # Hier .double() rausgelöscht, weil es muss float32 sein
+    generator = InpaintGenerator(rates=[1, 2, 4, 8], block_num=2).to(device)
+    #generator = PartialConvNet().to(device)
+    discriminator = Discriminator().to(device)
     print("Loaded model to device...")
 
     # möglicherweise filter nötig
@@ -97,7 +98,7 @@ if __name__ == "__main__":
         columns=['epoch', 'iteration', 'l1', 'generator_loss', 'discriminator_loss'],
         data=loss_df
     )
-    loss_df.to_csv('losses.csv', index=False)
+    loss_df.to_csv('GANlosses.csv', index=False)
 
-    torch.save(generator.state_dict(), 'gan_generator')
-    torch.save(discriminator.state_dict(), 'gan_discriminator')
+    torch.save(generator.state_dict(), 'gan_generator.t7')
+    torch.save(discriminator.state_dict(), 'gan_discriminator.t7')
